@@ -1,0 +1,12 @@
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+  }
+  .cell.winner {
+    border: 1px solid white;
+    box-shadow: 0 0 10px white;
+  }
+  

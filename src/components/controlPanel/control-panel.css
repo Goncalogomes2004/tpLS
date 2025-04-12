@@ -1,0 +1,118 @@
+/**********************************************
+*** © Linguagens Script > DEIS > ISEC > IPC 
+*** Jogo de Memória em React
+*** Estilos para control-panel.component.jsx 
+**********************************************/
+#panel-control {
+  background-color: #f1f0f0;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  font-size: smaller;
+  color: grey;
+  width: 100%;
+  margin: 15px 0px;
+  border: 3px solid var(--globalColor);
+}
+
+
+.form-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  justify-self: left;
+  margin-bottom: 10px;
+}
+
+select{
+  
+  margin-top: 5px;
+  border: 0;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  border-bottom: 50px ;
+  border-color: red;
+  
+}
+input {
+  margin-top: 5px;
+  border: 0;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  border-bottom: 50px ;
+  border-color: red;
+  
+}
+
+input:focus{
+  border: 0;
+  
+}
+
+
+#btPlay {
+  border: 0px ;
+  padding: 10px;
+  max-height:40px ;
+  background-color: #5eac52;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+  justify-self: end;
+  border-radius: 10px;
+  transition: 0.3s;
+
+}
+
+
+#btStop {
+  border: 0px ;
+  padding: 10px;
+  max-height:40px ;
+  background-color: #ff0000;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+  justify-self: end;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+#btPlay:hover {
+  background-color: #3e7435;
+  transition: 0.3s;
+}
+
+#btStop:hover {
+  background-color: #c70000;
+  transition: 0.3s;
+}
+
+
+.form.form{
+  display: flex;
+  flex-direction: row;
+  padding: 20px 20px;
+  justify-content: space-between;
+
+}
+
+.form-nonflex{
+  flex-direction: row;
+  padding: 20px 20px;
+  justify-content: space-between;
+
+}
+
+
+.blocked {
+  background-color: gainsboro;
+  pointer-events: none;  /* Impede a interação com o elemento */
+  opacity: 0.6;  /* Opcional: deixa o elemento com uma aparência "desabilitada" */
+}
+
+.form-items{
+  gap: 10px;
+  display: flex ;
+}

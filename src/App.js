@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import "./styles/App.css";
+import BoardPanel from './components/board/board.compontent';
+import Header from './components/header/header.component';
+import { useState } from 'react';  // Importando useState
+import ControlPanel from './components/controlPanel/control-panel.component';
 
 function App() {
+  const [gameStarted, setGameStarted] = useState(false);  // Estado para controlar o jogo
+  const [p1Name, setP1Name] = useState();  // Estado para o nome do jogador 1
+  const [p2Name, setP2Name] = useState();  // Estado para o nome do jogador 2
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="container">
+      <Header />
+      <main>  
+        <ControlPanel setGameStarted={setGameStarted} setp1Name={setP1Name} setp2Name={setP2Name} />
+        {gameStarted && <BoardPanel p1Name={p1Name} p2Name={p2Name} />}  {/* Passa os nomes dos jogadores para o BoardPanel */}
+      </main>
     </div>
   );
 }
