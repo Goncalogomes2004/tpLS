@@ -24,17 +24,22 @@
   color: #1e3a8a;
 }
 
+.cell-wrapper {
+  position: relative;
+}
+
+
 #game {
   max-width: 500px;
   margin: 0 auto;
   padding-top: 10px;
   padding-bottom: 20px;
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 colunas */
-  grid-template-rows: repeat(6, 1fr);    /* 6 linhas */
+  grid-template-columns: repeat(7, 1fr); 
+  grid-template-rows: repeat(6, 1fr);    
   gap: 10px;
   justify-content: center;
-  background-color: #1e3a8a; /* azul escuro tipo tabuleiro */
+  background-color: #1e3a8a;
   padding: 15px;
   border-radius: 10px;
 }

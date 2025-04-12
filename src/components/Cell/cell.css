@@ -9,4 +9,38 @@
     border: 1px solid white;
     box-shadow: 0 0 10px white;
   }
+  .cell.arrow {
+    position: relative;
+    background-color: #08f1e6 !important;
+    box-shadow: 0 0 4px #08f1e6 ;
+  }
+
+
+  .cell.primed {
+    box-shadow: inset 0 0 15px rgb(218, 165, 31), 0 0 20px rgb(218, 165, 31);
+  }
+  
+  
+  .cell.arrow::before {
+    content: "↓";  
+    font-size: 24px;  
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  
+    
+    animation: floatArrow 1s ease-in-out infinite;
+  }
+  
+  @keyframes floatArrow {
+    0% {
+      transform: translate(-50%, -50%) translateY(0);
+    }
+    50% {
+      transform: translate(-50%, -50%) translateY(-4px);
+    }
+    100% {
+      transform: translate(-50%, -50%) translateY(0); 
+    }
+  }
   
