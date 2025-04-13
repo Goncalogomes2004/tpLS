@@ -30,44 +30,34 @@ export default function BoardPanel( {p1Name , p2Name}) {
 
 
 
+  function startGame(){
+    setGameFinished(false)
+    setPrimePositions([])
+    setWinPositions(Array.from({ length: rows }, () => Array(cols).fill("white")))
+    setBoard(Array.from({ length: rows }, () => Array(cols).fill("white")))
+    setSpecialPositions()
+    selectRandomPlayer();
+    startTimer()
+  }
 
-function startTimer() {
-  if(gameFinished) return
-  if (intervalRef.current) clearInterval(intervalRef.current);
-
-  setTime(0);
-  intervalRef.current = setInterval(() => {
-    setTime(prevTime => {
-      if (prevTime > 10) {
-        clearInterval(intervalRef.current);
-        return 0;
+  function setSpecialPositions() {
+    const newPositions = [];
+  
+    while (newPositions.length < 5) {
+      const row = Math.floor(Math.random() * 6);
+      const col = Math.floor(Math.random() * 7);
+  
+      if (!newPositions.some(position => position[0] === row && position[1] === col)) {
+        newPositions.push([row, col]);
       }
-      return prevTime +1;
-    });
-  }, 1000);
-}
-
-  
-  useEffect(() => {
-    if(time > 10){
-      handleTimeout()
     }
-  }, [time]);
-
-
-  function handleTimeout() {
-    if (gameFinished) return;
-    setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
-    setCurrentPlayerName(currentPlayer === "red" ? p2Name || "Jogador 2" : p1Name || "Jogador 1"
-    );
   
-    startTimer();
+    setPrimePositions(newPositions); // Agora atualiza corretamente o state
   }
   
 
-  
   function selectRandomPlayer() {
-    
+      
     const number = Math.floor(Math.random() * 2);
     if(number === 0){
         setCurrentPlayer("red")
@@ -84,33 +74,59 @@ function startTimer() {
 
 
 
-  function setSpecialPositions() {
-    while (primePositions.length < 5) {
-      const row = Math.floor(Math.random() * 6);  
-      const col = Math.floor(Math.random() * 7);  
+
+  function startTimer() {
+    if(gameFinished) return
+    if (intervalRef.current) clearInterval(intervalRef.current);
   
-      // Verifica se a posição já foi gerada antes
-      if (!primePositions.some(position => position[0] === row && position[1] === col)) {
-        primePositions.push([row, col]);
-      }
-    }
-    //console.log("Posiçoes premiadas: ", primePositions)
+    setTime(0);
+    intervalRef.current = setInterval(() => {
+      setTime(prevTime => {
+        if (prevTime > 10) {
+          clearInterval(intervalRef.current);
+          return 0;
+        }
+        return prevTime +1;
+      });
+    }, 1000);
   }
   
+    
+    useEffect(() => {
+      if(time > 10){
+        handleTimeout()
+      }
+    }, [time]);
+  
+  
+    function handleTimeout() {
+      if (gameFinished) return;
+      setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
+      setCurrentPlayerName(currentPlayer === "red" ? p2Name || "Jogador 2" : p1Name || "Jogador 1"
+      );
+    
+      startTimer();
+    }
+    
+  
+    
 
+  
+  
+  
+  
+    useEffect(() => {
+      startGame()
+    }, []);
+  
+  
 
-  useEffect(() => {
-    setSpecialPositions()
-    selectRandomPlayer();
-    startTimer()
-  }, []);
-
+  
   function checkForWinners(currentBoard) {
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         const current = currentBoard[i][j];
         if (current !== "white") {
-  
           if (
             i + 3 < rows &&
             current === currentBoard[i + 1][j] &&
@@ -146,7 +162,6 @@ function startTimer() {
             return;
           }
   
-          // Diagonal ↘
           if (
             i + 3 < rows &&
             j + 3 < cols &&
@@ -236,10 +251,17 @@ function handleHoverOut() {
   return (
     <section id="panel-game">
  
+      <div className="top-panel">
+       {!gameFinished ?
+       ( <NextPlayerBoard player={currentPlayer} playerName = {currentPlayerName}/>) :
+       (
+        <p>Jogo terminado. Vencedor {winner}</p>
+       )}
+          <button className="restartButton" onClick={()=> startGame()}>Recomeçar jogo</button>
 
-       {!gameFinished && <NextPlayerBoard player={currentPlayer} playerName = {currentPlayerName}/>}
-       {gameFinished && (<p>Jogo terminado. Vencedor {winner}</p>)}
-       
+        </div>
+
+
     {!gameFinished && <div className="top-row">
         {top.map((hovered, colIndex) => (
           <div
