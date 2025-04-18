@@ -17,8 +17,8 @@ function App() {
       <Header />
       <main>  
         <ControlPanel setGameStarted={setGameStarted} setp1Name={setP1Name} setp2Name={setP2Name} setAgainstBot={setAgainstBot}/>
-     {gameStarted && !againstBot && <BoardPanel p1Name={p1Name} p2Name={p2Name} />} 
-     {gameStarted && againstBot && <BoardPanelBot p1Name={p1Name}  />} 
+      {gameStarted && !againstBot && <BoardPanel p1Name={p1Name} p2Name={p2Name} />} 
+      {gameStarted && againstBot && <BoardPanelBot p1Name={p1Name}  />} 
 
       </main>
     </div>

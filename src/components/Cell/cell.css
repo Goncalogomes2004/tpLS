@@ -43,7 +43,6 @@
     transform: translate(-50%, -50%) translateY(0); 
   }
 }
-/* REMOVE estas partes */
 
 
 @keyframes fall {
@@ -74,6 +73,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;  /* Essa célula tem z-index 1 */
+  z-index: 1;  
   animation: fall 0.6s ease-out;
 }

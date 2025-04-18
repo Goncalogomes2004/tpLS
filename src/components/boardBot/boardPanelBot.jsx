@@ -1,4 +1,3 @@
-// BoardPanel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import Cell from "../Cell/Cell";
 import NextPlayerBoard from '../nextPlayer/nextplayerboard.component';
@@ -52,7 +51,7 @@ export default function BoardPanelBot( {p1Name }) {
       }
     }
   
-    setPrimePositions(newPositions); // Agora atualiza corretamente o state
+    setPrimePositions(newPositions); 
   }
   
 
@@ -103,7 +102,7 @@ export default function BoardPanelBot( {p1Name }) {
         const timeout = setTimeout(() => {
         const randomNumber = Math.floor(Math.random() * 7);
         handleColumnClick(randomNumber);
-      }, 1000); // atraso para parecer mais humano
+      }, 1000); 
       
 
       return () => clearTimeout(timeout);
@@ -157,7 +156,6 @@ export default function BoardPanelBot( {p1Name }) {
             return;
           }
   
-          // Horizontal
           if (
             j + 3 < cols &&
             current === currentBoard[i][j + 1] &&

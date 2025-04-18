@@ -1,7 +1,7 @@
 import "./control-panel.css";
 import React, { useState } from "react";
 
-export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, setAgainstBot }) {  // Recebendo as funções como props
+export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, setAgainstBot }) { 
 
    const [jogoIniciado, setJogoIniciado] = useState(false);  
    const [player1, setPlayer1] = useState("");  
@@ -28,7 +28,7 @@ export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, set
           <br></br>
           <select
             id="btLevel"
-            onChange={(e) => setVsBot(e.target.value === "1")}  // Lógica correta
+            onChange={(e) => setVsBot(e.target.value === "1")} 
             className={jogoIniciado ? "blocked" : ""}
           >
             <option value="0">1 vs 1</option>
@@ -47,7 +47,7 @@ export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, set
             id="player1"
             placeholder="Nome do Jogador 1"
             value={player1}
-            onChange={(e) => setPlayer1(e.target.value)}  // Atualiza o nome do jogador 1
+            onChange={(e) => setPlayer1(e.target.value)} 
           />
         </fieldset>
 
@@ -60,14 +60,14 @@ export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, set
           className={jogoIniciado ? "blocked": ""}
             placeholder="Nome do Jogador 2"
             value={player2}
-            onChange={(e) => setPlayer2(e.target.value)}  // Atualiza o nome do jogador 2
+            onChange={(e) => setPlayer2(e.target.value)} 
           />
         </fieldset>)}
         </div>
         <button
           type="button"
           id={jogoIniciado ? "btStop":"btPlay"}
-          onClick={handleStartGame}  // Função chamada ao clicar no botão
+          onClick={handleStartGame}  
         >
           {!jogoIniciado ? "Iniciar Jogo" : "Terminar Jogo"}
         </button>

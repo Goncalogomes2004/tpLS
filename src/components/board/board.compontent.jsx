@@ -1,4 +1,3 @@
-// BoardPanel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import "./game-panel.css";
 import Cell from "../Cell/Cell";
@@ -26,7 +25,6 @@ export default function BoardPanel( {p1Name , p2Name}) {
   const [currentPlayerName, setCurrentPlayerName] = useState(p1Name);
   const [gameFinished, setGameFinished] = useState(false);
   const [winner, setWinner] = useState(null)
-  const [dropping, setDropping] = useState()
 
 
 
