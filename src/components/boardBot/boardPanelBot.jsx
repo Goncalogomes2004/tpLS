@@ -1,10 +1,9 @@
 // BoardPanel.jsx
 import React, { useEffect, useRef, useState } from "react";
-import "./game-panel.css";
 import Cell from "../Cell/Cell";
 import NextPlayerBoard from '../nextPlayer/nextplayerboard.component';
 
-export default function BoardPanel( {p1Name , p2Name}) {
+export default function BoardPanelBot( {p1Name }) {
   const rows = 6;
   const cols = 7;
   const [time, setTime] = useState(0);
@@ -26,8 +25,8 @@ export default function BoardPanel( {p1Name , p2Name}) {
   const [currentPlayerName, setCurrentPlayerName] = useState(p1Name);
   const [gameFinished, setGameFinished] = useState(false);
   const [winner, setWinner] = useState(null)
-  const [dropping, setDropping] = useState()
-
+  const [botPlaying, setBotPlaying] = useState(false)
+  const [botPrimed, setBotPrimed] = useState(false)
 
 
 
@@ -62,11 +61,13 @@ export default function BoardPanel( {p1Name , p2Name}) {
     const number = Math.floor(Math.random() * 2);
     if(number === 0){
         setCurrentPlayer("red")
-        setCurrentPlayerName(p1Name || "Jogador 1")
+        setCurrentPlayerName(p1Name || "Jogador ")
+        setBotPlaying(false)
     }else{
         setCurrentPlayer("yellow")
+        setBotPlaying(true)
      
-        setCurrentPlayerName(p2Name || "Jogador 2")
+        setCurrentPlayerName( "Bot")
     }
     
 
@@ -93,17 +94,28 @@ export default function BoardPanel( {p1Name , p2Name}) {
   }
   
     
-    useEffect(() => {
-      if(time > 10){
-        handleTimeout()
+
+  useEffect(() => {
+    if (!gameFinished && currentPlayer === "yellow") {
+      if(botPrimed){
+        setBotPrimed(false)
       }
-    }, [time]);
+        const timeout = setTimeout(() => {
+        const randomNumber = Math.floor(Math.random() * 7);
+        handleColumnClick(randomNumber);
+      }, 1000); // atraso para parecer mais humano
+      
+
+      return () => clearTimeout(timeout);
+    }
+  }, [currentPlayer, gameFinished, botPrimed]);
+  
   
   
     function handleTimeout() {
       if (gameFinished) return;
       setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
-      setCurrentPlayerName(currentPlayer === "red" ? p2Name || "Jogador 2" : p1Name || "Jogador 1"
+      setCurrentPlayerName(currentPlayer === "red" ? "Bot" : p1Name || "Jogador"
       );
     
       startTimer();
@@ -205,15 +217,7 @@ export default function BoardPanel( {p1Name , p2Name}) {
   
   const [hoveredCol, setHoveredCol] = useState(null);
 
-function handleHover(col) {
-  setHoveredCol(col);
-}
-
-function handleHoverOut() {
-  setHoveredCol(null);
-}
-
-
+ 
 
   function handleColumnClick(col) {
     if (gameFinished) return; 
@@ -228,8 +232,14 @@ function handleHoverOut() {
         if (!primePositions.some(position => position[0] === row && position[1] === col)) {
         
           setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
-          setCurrentPlayerName(currentPlayer === "yellow" ? p1Name ? p1Name : "Jogador 1" : p2Name ? p2Name : "Jogador 2");
-        }
+          setCurrentPlayerName(currentPlayer === "yellow" ? p1Name ? p1Name : "Jogador" : "Bot");
+            setBotPlaying(!botPlaying)
+        }else if(botPlaying){
+            setBotPrimed(true)
+
+        }   
+
+        
         //console.log(row, col)
         startTimer();
 
@@ -270,7 +280,7 @@ function handleHoverOut() {
         
           >
             
-            {hovered && !gameFinished && <span ><Cell color={currentPlayer}/></span>}
+            {hovered && !botPlaying && !gameFinished && <span ><Cell color={currentPlayer}/></span>}
           </div>
         ))}
       </div>}
@@ -280,16 +290,26 @@ function handleHoverOut() {
         row.map((color, colIndex) => (
 
             <div
-              onMouseEnter={() => {handleHover(colIndex)
-                setHoveredCol(colIndex)
+              onMouseEnter={() => {
+                if(!botPlaying){
+                    handleHover(colIndex)
+                    setHoveredCol(colIndex)
+                }
               }}
-              onMouseLeave={() => {handleHoverOut()
-                setHoveredCol(null)
+              onMouseLeave={() => {
+                if(!botPlaying){
+                    handleHoverOut()
+                    setHoveredCol(null)
+                }
               }}>
               <Cell
                     key={`${rowIndex}-${colIndex}`}
                     color={color}
-                    onClick={() =>{ handleColumnClick(colIndex)
+                    onClick={() =>{ 
+                        if(!botPlaying){
+                            handleColumnClick(colIndex)
+                        }
+                        console.log(botPlaying)
                         console.log(currentPlayerName)
                     }}
                     isArrow={hoveredCol === colIndex && !gameFinished && color === "white"}

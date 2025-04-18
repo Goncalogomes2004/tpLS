@@ -73,6 +73,8 @@
   background-color: #1e3a8a;
   padding: 15px;
   border-radius: 10px;
+  position: relative;
+  z-index: 20 ;
 }
 
 #game.avancado {
