@@ -20,7 +20,7 @@ export default function Cell({ color, onClick, isWinning, isArrow, isPrimed, row
 
   return (
     <div className="cell-container" onClick={onClick}>
-      <div className={`cell base  ${isPrimed  ? 'primed' : ''}`} />
+      <div className={`cell base  ${isPrimed  ? 'primed' : ''}  ${isArrow ? 'arrow' : ''}`} />
 
       {isDropping && (
         <div
