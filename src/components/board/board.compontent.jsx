@@ -19,17 +19,36 @@ export default function BoardPanel( {p1Name , p2Name}) {
   const [winedPositions, setWinPositions] = useState(
     Array.from({ length: rows }, () => Array(cols).fill("white"))
   );
+
+
+  
   const [primePositions, setPrimePositions] = useState([]);
 
   const [currentPlayer, setCurrentPlayer] = useState("red");    
   const [currentPlayerName, setCurrentPlayerName] = useState(p1Name);
   const [gameFinished, setGameFinished] = useState(false);
   const [winner, setWinner] = useState(null)
+  const [hoveredCol, setHoveredCol] = useState(null);
+  const [tied, setTied] = useState(false)
+  function handleHover(col) {
+    setHoveredCol(col);
+  }
 
+  function handleHoverOut() {
+    setHoveredCol(null);
+  }
+
+
+
+
+  useEffect(() => {
+    startGame()
+  }, []);
 
 
 
   function startGame(){
+    setTied(false)
     setGameFinished(false)
     setPrimePositions([])
     setWinPositions(Array.from({ length: rows }, () => Array(cols).fill("white")))
@@ -38,6 +57,15 @@ export default function BoardPanel( {p1Name , p2Name}) {
     selectRandomPlayer();
     startTimer()
   }
+
+
+
+    
+  
+  
+  
+
+
 
   function setSpecialPositions() {
     const newPositions = [];
@@ -110,15 +138,7 @@ export default function BoardPanel( {p1Name , p2Name}) {
   
     
 
-  
-  
-  
-  
-    useEffect(() => {
-      startGame()
-    }, []);
-  
-  
+
 
   
   function checkForWinners(currentBoard) {
@@ -201,20 +221,8 @@ export default function BoardPanel( {p1Name , p2Name}) {
     }
   }
   
-  const [hoveredCol, setHoveredCol] = useState(null);
-
-function handleHover(col) {
-  setHoveredCol(col);
-}
-
-function handleHoverOut() {
-  setHoveredCol(null);
-}
-
-
-
   function handleColumnClick(col) {
-    if (gameFinished) return; 
+    if (gameFinished) return;
   
     for (let row = rows - 1; row >= 0; row--) {
       if (board[row][col] === "white") {
@@ -223,18 +231,28 @@ function handleHoverOut() {
   
         setBoard(newBoard);
         checkForWinners(newBoard);
+  
         if (!primePositions.some(position => position[0] === row && position[1] === col)) {
-        
           setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
-          setCurrentPlayerName(currentPlayer === "yellow" ? p1Name ? p1Name : "Jogador 1" : p2Name ? p2Name : "Jogador 2");
+          setCurrentPlayerName(
+            currentPlayer === "yellow"
+              ? p1Name ? p1Name : "Jogador 1"
+              : p2Name ? p2Name : "Jogador 2"
+          );
         }
-        //console.log(row, col)
+  
+        const isBoardFull = newBoard.every(row => row.every(cell => cell !== "white"));
+        if (isBoardFull) {
+          setGameFinished(true);
+          setTied(true);
+        }
+  
         startTimer();
-
         break;
       }
     }
   }
+  
   
   function handleHover(col) {
     const newTop = Array(cols).fill(false);
@@ -248,16 +266,17 @@ function handleHoverOut() {
   
   return (
     <section id="panel-game">
- 
-      <div className="top-panel">
-       {!gameFinished ?
-       ( <NextPlayerBoard player={currentPlayer} playerName = {currentPlayerName}/>) :
-       (
-        <p>Jogo terminado. Vencedor {winner}</p>
-       )}
-          <button className="restartButton" onClick={()=> startGame()}>Recomeçar jogo</button>
+    <div className="top-panel">
+      {!gameFinished ? (
+        <NextPlayerBoard player={currentPlayer} playerName={currentPlayerName} />
+      ) : (
+        tied === true ? <p>Jogo Terminado! Empate!</p> :  <p>Jogo Terminado! Vencedor: {winner}</p>
+      )}
 
-        </div>
+      <button className="restartButton" onClick={() => startGame()}>
+        Recomeçar jogo
+      </button>
+    </div>
 
 
     {!gameFinished && <div className="top-row">

@@ -18,7 +18,7 @@ export default function ControlPanel({ setGameStarted, setp1Name, setp2Name, set
 
    return (
     <section id="panel-control">
-      <h3 className="sr-only">Escolha o tipo de Jogo</h3>
+  
 
     
       <form className={!jogoIniciado ? "form ": "form-nonflex"}>

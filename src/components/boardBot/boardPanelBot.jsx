@@ -26,10 +26,12 @@ export default function BoardPanelBot( {p1Name }) {
   const [winner, setWinner] = useState(null)
   const [botPlaying, setBotPlaying] = useState(false)
   const [botPrimed, setBotPrimed] = useState(false)
+  const [tied, setTied] = useState(false)
 
 
 
   function startGame(){
+    setTied(false)
     setGameFinished(false)
     setPrimePositions([])
     setWinPositions(Array.from({ length: rows }, () => Array(cols).fill("white")))
@@ -231,14 +233,20 @@ export default function BoardPanelBot( {p1Name }) {
         
           setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
           setCurrentPlayerName(currentPlayer === "yellow" ? p1Name ? p1Name : "Jogador" : "Bot");
-            setBotPlaying(!botPlaying)
+          setBotPlaying(!botPlaying)
         }else if(botPlaying){
-            setBotPrimed(true)
+          setBotPrimed(true)
 
         }   
 
-        
-        //console.log(row, col)
+        const isBoardFull = newBoard.every(row => row.every(cell => cell !== "white"));
+        if (isBoardFull) {
+          setGameFinished(true);
+          setTied(true);
+        }
+  
+
+
         startTimer();
 
         break;
@@ -259,14 +267,16 @@ export default function BoardPanelBot( {p1Name }) {
   return (
     <section id="panel-game">
  
-      <div className="top-panel">
-       {!gameFinished ?
-       ( <NextPlayerBoard player={currentPlayer} playerName = {currentPlayerName}/>) :
-       (
-        <p>Jogo terminado. Vencedor {winner}</p>
-       )}
-          <button className="restartButton" onClick={()=> startGame()}>Recomeçar jogo</button>
-
+     <div className="top-panel">
+          {!gameFinished ? (
+            <NextPlayerBoard player={currentPlayer} playerName={currentPlayerName} />
+          ) : (
+            tied === true ? <p>Jogo Terminado! Empate!</p> :  <p>Jogo Terminado! Vencedor: {winner}</p>
+          )}
+    
+          <button className="restartButton" onClick={() => startGame()}>
+            Recomeçar jogo
+          </button>
         </div>
 
 
